@@ -1,4 +1,10 @@
-import { Sparkles, Droplets, Shirt, Home, Blinds, Clock } from 'lucide-react';
+import { Sparkles, Droplets, Shirt, Home, Blinds, Clock, Truck } from 'lucide-react';
+import dryCleaningImg from '@/assets/dry-cleaning-service.jpg';
+import washingImg from '@/assets/washing-service.jpg';
+import ironingImg from '@/assets/ironing-service.jpg';
+import carpetCleaningImg from '@/assets/carpet-cleaning-service.jpg';
+import curtainCleaningImg from '@/assets/curtain-cleaning-service.jpg';
+import expressImg from '@/assets/express-service.jpg';
 
 const Services = () => {
   const services = [
@@ -6,37 +12,50 @@ const Services = () => {
       icon: Sparkles,
       title: "Dry Cleaning",
       description: "Professional dry cleaning for delicate fabrics and special garments with premium care.",
-      features: ["Delicate fabric care", "Stain removal", "Professional pressing"]
+      features: ["Delicate fabric care", "Stain removal", "Professional pressing"],
+      image: dryCleaningImg
     },
     {
       icon: Droplets,
       title: "Washing",
       description: "Complete washing service using eco-friendly detergents and modern equipment.",
-      features: ["Eco-friendly detergents", "Deep cleaning", "Fabric softening"]
+      features: ["Eco-friendly detergents", "Deep cleaning", "Fabric softening"],
+      image: washingImg
     },
     {
       icon: Shirt,
       title: "Ironing",
       description: "Expert ironing and pressing services to keep your clothes crisp and wrinkle-free.",
-      features: ["Professional pressing", "Crease removal", "Perfect finishing"]
+      features: ["Professional pressing", "Crease removal", "Perfect finishing"],
+      image: ironingImg
     },
     {
       icon: Home,
       title: "Carpet Cleaning",
       description: "Deep carpet cleaning service that removes stains and restores freshness.",
-      features: ["Deep cleaning", "Stain removal", "Odor elimination"]
+      features: ["Deep cleaning", "Stain removal", "Odor elimination"],
+      image: carpetCleaningImg
     },
     {
       icon: Blinds,
       title: "Curtain Cleaning",
       description: "Specialized curtain cleaning to maintain elegance and cleanliness in your home.",
-      features: ["Gentle cleaning", "Color protection", "Shape preservation"]
+      features: ["Gentle cleaning", "Color protection", "Shape preservation"],
+      image: curtainCleaningImg
     },
     {
       icon: Clock,
       title: "One Hour Service",
       description: "Express service for urgent cleaning needs with same-day delivery.",
-      features: ["Express processing", "Same-day service", "Priority handling"]
+      features: ["Express processing", "Same-day service", "Priority handling"],
+      image: expressImg
+    },
+    {
+      icon: Truck,
+      title: "Home Delivery Service",
+      description: "Convenient pickup and delivery service right to your doorstep across Abu Dhabi.",
+      features: ["Free pickup & delivery", "Scheduled service", "Contactless delivery"],
+      image: "/lovable-uploads/c3feffcd-3587-4c72-8d09-9dbc3daf3237.png"
     }
   ];
 
@@ -55,40 +74,58 @@ const Services = () => {
         </div>
 
         {/* Services Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
           {services.map((service, index) => {
             const IconComponent = service.icon;
             return (
               <div 
                 key={index}
-                className="card-service group animate-slide-up"
+                className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 animate-slide-up"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className="text-center mb-6">
-                  <div className="bg-accent-red/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-accent-red/20 transition-colors">
-                    <IconComponent className="h-8 w-8 text-accent-red" />
+                {/* Service Image */}
+                <div className="relative h-48 overflow-hidden">
+                  <img 
+                    src={service.image}
+                    alt={service.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+                  
+                  {/* Icon Overlay */}
+                  <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm w-12 h-12 rounded-full flex items-center justify-center">
+                    <IconComponent className="h-6 w-6 text-accent-red" />
                   </div>
-                  <h3 className="text-xl font-bold text-primary mb-3">{service.title}</h3>
-                  <p className="text-gray-600 leading-relaxed">{service.description}</p>
                 </div>
 
-                <div className="space-y-2">
-                  {service.features.map((feature, idx) => (
-                    <div key={idx} className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-accent-red rounded-full"></div>
-                      <span className="text-sm text-gray-700">{feature}</span>
-                    </div>
-                  ))}
-                </div>
+                {/* Card Content */}
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-primary mb-3 group-hover:text-accent-red transition-colors">
+                    {service.title}
+                  </h3>
+                  <p className="text-gray-600 leading-relaxed mb-4 text-sm">
+                    {service.description}
+                  </p>
 
-                <div className="mt-6">
+                  {/* Features */}
+                  <div className="space-y-2 mb-6">
+                    {service.features.map((feature, idx) => (
+                      <div key={idx} className="flex items-center space-x-2">
+                        <div className="w-1.5 h-1.5 bg-accent-red rounded-full"></div>
+                        <span className="text-xs text-gray-700">{feature}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* CTA Button */}
                   <a 
                     href="https://wa.me/971553989502?text=Hi%20Al%20Sahel%20Laundry%2C%20I%27d%20like%20to%20know%20more%20about%20your%20services."
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-accent-red font-semibold hover:text-accent-red-light transition-colors"
+                    className="inline-flex items-center text-accent-red font-semibold hover:text-accent-red-light transition-colors text-sm group"
                   >
-                    Learn More →
+                    Learn More 
+                    <span className="ml-1 transition-transform group-hover:translate-x-1">→</span>
                   </a>
                 </div>
               </div>
