@@ -1,8 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { createPortal } from 'react-dom';
+import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
+
+const isIOS = () => typeof window !== 'undefined' && /iP(ad|hone|od)/.test(window.navigator.userAgent);
 
 const Gallery = () => {
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
+  const modalRef = useRef<HTMLDivElement | null>(null);
 
   const galleryImages = [
     {
@@ -37,25 +42,85 @@ const Gallery = () => {
     }
   ];
 
+  // Robust scroll lock for all devices
+  useEffect(() => {
+    const modal = modalRef.current;
+    if (selectedImage !== null && modal) {
+      disableBodyScroll(modal, { reserveScrollBarGap: true });
+    } else {
+      enableBodyScroll(modal as Element);
+    }
+    return () => {
+      clearAllBodyScrollLocks();
+    };
+  }, [selectedImage]);
+
   const openLightbox = (index: number) => {
     setSelectedImage(index);
-    document.body.style.overflow = 'hidden';
   };
 
   const closeLightbox = () => {
     setSelectedImage(null);
-    document.body.style.overflow = 'unset';
   };
 
   const navigateImage = (direction: 'prev' | 'next') => {
     if (selectedImage === null) return;
-    
     if (direction === 'prev') {
       setSelectedImage(selectedImage === 0 ? galleryImages.length - 1 : selectedImage - 1);
     } else {
       setSelectedImage(selectedImage === galleryImages.length - 1 ? 0 : selectedImage + 1);
     }
   };
+
+  // Modal portal
+  const modal = selectedImage !== null ? createPortal(
+    <div
+      ref={modalRef}
+      className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-2 sm:p-4 overscroll-y-auto touch-manipulation"
+      style={{ WebkitOverflowScrolling: 'touch', paddingBottom: 'env(safe-area-inset-bottom)' }}
+      onClick={closeLightbox}
+    >
+      <div
+        className="relative max-w-4xl w-full"
+        style={{ pointerEvents: 'auto', paddingBottom: 'env(safe-area-inset-bottom)' }}
+        onClick={e => e.stopPropagation()}
+      >
+        {/* Close Button */}
+        <button
+          onClick={closeLightbox}
+          className="absolute top-2 right-2 sm:top-4 sm:right-4 z-10 bg-white/20 hover:bg-white/30 rounded-full p-2 transition-colors"
+        >
+          <X className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
+        </button>
+        {/* Navigation Buttons */}
+        <button
+          onClick={() => navigateImage('prev')}
+          className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-10 bg-white/20 hover:bg-white/30 rounded-full p-2 transition-colors"
+        >
+          <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
+        </button>
+        <button
+          onClick={() => navigateImage('next')}
+          className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-10 bg-white/20 hover:bg-white/30 rounded-full p-2 transition-colors"
+        >
+          <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
+        </button>
+        {/* Image */}
+        <div className="text-center">
+          <img
+            src={galleryImages[selectedImage].src}
+            alt={galleryImages[selectedImage].alt}
+            className="max-w-full max-h-[70vh] sm:max-h-[80vh] object-contain rounded-lg"
+            style={{ maxHeight: 'min(80vh, 100dvh - 64px)' }}
+          />
+          <h3 className="text-white text-lg sm:text-xl font-semibold mt-3 sm:mt-4 px-4">
+            {galleryImages[selectedImage].title}
+          </h3>
+        </div>
+      </div>
+    </div>,
+    document.body
+  ) : null;
 
   return (
     <section id="gallery" className="section-padding bg-white">
@@ -96,48 +161,7 @@ const Gallery = () => {
             </div>
           ))}
         </div>
-
-        {/* Lightbox Modal */}
-        {selectedImage !== null && (
-          <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-2 sm:p-4">
-            <div className="relative max-w-4xl w-full">
-              {/* Close Button */}
-              <button
-                onClick={closeLightbox}
-                className="absolute top-2 right-2 sm:top-4 sm:right-4 z-10 bg-white/20 hover:bg-white/30 rounded-full p-2 transition-colors"
-              >
-                <X className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
-              </button>
-
-              {/* Navigation Buttons */}
-              <button
-                onClick={() => navigateImage('prev')}
-                className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-10 bg-white/20 hover:bg-white/30 rounded-full p-2 transition-colors"
-              >
-                <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
-              </button>
-
-              <button
-                onClick={() => navigateImage('next')}
-                className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-10 bg-white/20 hover:bg-white/30 rounded-full p-2 transition-colors"
-              >
-                <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
-              </button>
-
-              {/* Image */}
-              <div className="text-center">
-                <img
-                  src={galleryImages[selectedImage].src}
-                  alt={galleryImages[selectedImage].alt}
-                  className="max-w-full max-h-[70vh] sm:max-h-[80vh] object-contain rounded-lg"
-                />
-                <h3 className="text-white text-lg sm:text-xl font-semibold mt-3 sm:mt-4 px-4">
-                  {galleryImages[selectedImage].title}
-                </h3>
-              </div>
-            </div>
-          </div>
-        )}
+        {modal}
       </div>
     </section>
   );

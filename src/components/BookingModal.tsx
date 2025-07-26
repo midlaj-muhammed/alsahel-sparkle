@@ -1,5 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { X, Calendar, Clock, MapPin, User, Phone, Mail, Package } from 'lucide-react';
+import { createPortal } from 'react-dom';
+import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
+
+const isMobile = () => typeof window !== 'undefined' && window.innerWidth < 640;
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -18,6 +22,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, onBookingC
     serviceType: '',
     specialInstructions: ''
   });
+  const modalRef = useRef<HTMLDivElement | null>(null);
 
   // Check for pre-selected service when modal opens
   useEffect(() => {
@@ -118,11 +123,39 @@ Please confirm this pickup booking. Thank you!`;
     return tomorrow.toISOString().split('T')[0];
   };
 
+  // Robust scroll lock for all devices
+  useEffect(() => {
+    const modal = modalRef.current;
+    if (isOpen && modal) {
+      disableBodyScroll(modal, { reserveScrollBarGap: true });
+    } else {
+      enableBodyScroll(modal as Element);
+    }
+    return () => {
+      clearAllBodyScrollLocks();
+    };
+  }, [isOpen]);
+
+  // Close on background tap
+  const handleBackgroundClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) onClose();
+  };
+
   if (!isOpen) return null;
 
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+  // Modal portal
+  return createPortal(
+    <div
+      ref={modalRef}
+      className={`fixed inset-0 bg-black bg-opacity-50 z-50 flex ${isMobile() ? 'items-end' : 'items-center'} justify-center p-4 overscroll-y-auto touch-manipulation`}
+      style={{ WebkitOverflowScrolling: 'touch', paddingBottom: 'env(safe-area-inset-bottom)' }}
+      onClick={handleBackgroundClick}
+    >
+      <div
+        className="bg-white rounded-2xl max-w-2xl w-full max-h-[100dvh] overflow-y-auto"
+        style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+        onClick={e => e.stopPropagation()}
+      >
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <div className="flex items-center space-x-3">
@@ -319,7 +352,8 @@ Please confirm this pickup booking. Thank you!`;
           </div>
         </form>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 
