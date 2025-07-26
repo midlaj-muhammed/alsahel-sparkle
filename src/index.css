@@ -127,23 +127,23 @@ All colors MUST be HSL.
 @layer components {
   /* Al Sahel Laundry custom components */
   .btn-primary {
-    @apply bg-[hsl(var(--accent-red))] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[hsl(var(--accent-red-light))] transition-all duration-300 shadow-[var(--shadow-button)];
+    @apply bg-[hsl(var(--accent-red))] text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold hover:bg-[hsl(var(--accent-red-light))] transition-all duration-300 shadow-[var(--shadow-button)] text-sm sm:text-base;
   }
 
   .btn-outline {
-    @apply border-2 border-[hsl(var(--primary))] text-[hsl(var(--primary))] px-6 py-3 rounded-lg font-semibold hover:bg-[hsl(var(--primary))] hover:text-white transition-all duration-300;
+    @apply border-2 border-[hsl(var(--primary))] text-[hsl(var(--primary))] px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold hover:bg-[hsl(var(--primary))] hover:text-white transition-all duration-300 text-sm sm:text-base;
   }
 
   .card-service {
-    @apply bg-white rounded-xl p-6 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-elegant)] transition-all duration-300 hover:-translate-y-1;
+    @apply bg-white rounded-lg sm:rounded-xl p-4 sm:p-6 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-elegant)] transition-all duration-300 hover:-translate-y-1;
   }
 
   .section-padding {
-    @apply py-16 px-4 md:px-6 lg:px-8;
+    @apply py-12 sm:py-16 px-4 md:px-6 lg:px-8;
   }
 
   .container-max {
-    @apply max-w-7xl mx-auto;
+    @apply max-w-7xl mx-auto px-4 sm:px-0;
   }
 
   .hero-gradient {
@@ -223,5 +223,41 @@ All colors MUST be HSL.
     50% {
       transform: translateY(-10px);
     }
+  }
+
+  /* Mobile-specific utilities */
+  .mobile-text-sm {
+    @apply text-sm sm:text-base;
+  }
+
+  .mobile-text-base {
+    @apply text-base sm:text-lg;
+  }
+
+  .mobile-text-lg {
+    @apply text-lg sm:text-xl;
+  }
+
+  .mobile-text-xl {
+    @apply text-xl sm:text-2xl;
+  }
+
+  .mobile-padding {
+    @apply px-4 sm:px-6 lg:px-8;
+  }
+
+  .mobile-margin {
+    @apply mx-4 sm:mx-6 lg:mx-8;
+  }
+
+  /* Improved touch targets for mobile */
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px];
+  }
+
+  /* Better mobile scrolling */
+  .smooth-scroll {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
   }
 }

@@ -61,26 +61,26 @@ const Gallery = () => {
     <section id="gallery" className="section-padding bg-white">
       <div className="container-max">
         {/* Section Header */}
-        <div className="text-center mb-16 animate-fade-in">
-          <h2 className="text-4xl md:text-5xl font-bold text-primary mb-6">
+        <div className="text-center mb-12 sm:mb-16 animate-fade-in px-4 sm:px-0">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-primary mb-4 sm:mb-6">
             Our <span className="text-gradient">Gallery</span>
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Discover our professional services and facilities through our gallery showcase.
           </p>
         </div>
 
         {/* Gallery Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 px-4 sm:px-0">
           {galleryImages.map((image, index) => (
-            <div 
+            <div
               key={index}
-              className="group relative overflow-hidden rounded-xl cursor-pointer hover-scale animate-slide-up"
+              className="group relative overflow-hidden rounded-lg sm:rounded-xl cursor-pointer hover-scale animate-slide-up"
               style={{ animationDelay: `${index * 0.1}s` }}
               onClick={() => openLightbox(index)}
             >
               <div className="aspect-[4/3] overflow-hidden">
-                <img 
+                <img
                   src={image.src}
                   alt={image.alt}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
@@ -89,8 +89,8 @@ const Gallery = () => {
               
               {/* Overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="absolute bottom-4 left-4 right-4">
-                  <h3 className="text-white font-semibold text-lg">{image.title}</h3>
+                <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 right-3 sm:right-4">
+                  <h3 className="text-white font-semibold text-base sm:text-lg">{image.title}</h3>
                 </div>
               </div>
             </div>
@@ -99,39 +99,39 @@ const Gallery = () => {
 
         {/* Lightbox Modal */}
         {selectedImage !== null && (
-          <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
+          <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-2 sm:p-4">
             <div className="relative max-w-4xl w-full">
               {/* Close Button */}
               <button
                 onClick={closeLightbox}
-                className="absolute top-4 right-4 z-10 bg-white/20 hover:bg-white/30 rounded-full p-2 transition-colors"
+                className="absolute top-2 right-2 sm:top-4 sm:right-4 z-10 bg-white/20 hover:bg-white/30 rounded-full p-2 transition-colors"
               >
-                <X className="h-6 w-6 text-white" />
+                <X className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
               </button>
 
               {/* Navigation Buttons */}
               <button
                 onClick={() => navigateImage('prev')}
-                className="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-white/20 hover:bg-white/30 rounded-full p-2 transition-colors"
+                className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-10 bg-white/20 hover:bg-white/30 rounded-full p-2 transition-colors"
               >
-                <ChevronLeft className="h-6 w-6 text-white" />
+                <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
               </button>
 
               <button
                 onClick={() => navigateImage('next')}
-                className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-white/20 hover:bg-white/30 rounded-full p-2 transition-colors"
+                className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-10 bg-white/20 hover:bg-white/30 rounded-full p-2 transition-colors"
               >
-                <ChevronRight className="h-6 w-6 text-white" />
+                <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
               </button>
 
               {/* Image */}
               <div className="text-center">
-                <img 
+                <img
                   src={galleryImages[selectedImage].src}
                   alt={galleryImages[selectedImage].alt}
-                  className="max-w-full max-h-[80vh] object-contain rounded-lg"
+                  className="max-w-full max-h-[70vh] sm:max-h-[80vh] object-contain rounded-lg"
                 />
-                <h3 className="text-white text-xl font-semibold mt-4">
+                <h3 className="text-white text-lg sm:text-xl font-semibold mt-3 sm:mt-4 px-4">
                   {galleryImages[selectedImage].title}
                 </h3>
               </div>
