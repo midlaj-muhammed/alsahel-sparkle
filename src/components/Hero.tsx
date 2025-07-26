@@ -107,7 +107,7 @@ const Hero = () => {
               <div className="relative">
                 {/* Loading skeleton for logo */}
                 {!logoImageLoaded && (
-                  <div className="h-28 sm:h-32 md:h-40 lg:h-48 xl:h-56 w-auto bg-white/10 rounded-lg animate-pulse flex items-center justify-center">
+                  <div className="h-56 sm:h-64 md:h-80 lg:h-96 xl:h-[28rem] w-auto bg-white/10 rounded-lg animate-pulse flex items-center justify-center">
                     <div className="w-8 h-8 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
                   </div>
                 )}
@@ -115,7 +115,7 @@ const Hero = () => {
                 <img
                   src="/lovable-uploads/9e3af782-7566-4289-bf58-6b52400bc3dd.png"
                   alt="Al Sahel Laundry Logo"
-                  className={`h-28 sm:h-32 md:h-40 lg:h-48 xl:h-56 w-auto transition-all duration-500 ${
+                  className={`h-56 sm:h-64 md:h-80 lg:h-96 xl:h-[28rem] w-auto transition-all duration-500 ${
                     logoImageLoaded ? 'opacity-95 hover:opacity-100' : 'opacity-0'
                   }`}
                   style={{
