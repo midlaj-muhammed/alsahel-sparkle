@@ -97,7 +97,7 @@ const Hero = () => {
           <div className="mb-8 animate-slide-up px-4 sm:px-0">
             <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-3 leading-tight">
               <span className="block text-white">Clean Clothes</span>
-              <span className="block text-white">
+              <span className="block bg-gradient-to-r from-teal-400 via-teal-300 to-blue-400 bg-clip-text text-transparent drop-shadow-2xl">
                 Happy Faces
               </span>
             </h1>
@@ -115,9 +115,8 @@ const Hero = () => {
                 <img
                   src="/lovable-uploads/9e3af782-7566-4289-bf58-6b52400bc3dd.png"
                   alt="Al Sahel Laundry Logo"
-                  className={`h-28 sm:h-32 md:h-40 lg:h-48 xl:h-56 w-auto transition-all duration-500 ${
-                    logoImageLoaded ? 'opacity-95 hover:opacity-100' : 'opacity-0'
-                  }`}
+                  className="w-96 xs:w-[420px] sm:w-[480px] md:w-[540px] lg:w-[600px] xl:w-[680px] 2xl:w-[720px] h-auto object-contain drop-shadow-2xl mx-auto"
+
                   style={{
                     transform: logoImageLoaded ? 'translateZ(0)' : 'none',
                     willChange: 'transform, opacity'

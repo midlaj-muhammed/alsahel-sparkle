@@ -18,7 +18,7 @@ export const useSmoothScroll = () => {
         window.scrollTo({
           top: offsetPosition,
           behavior: 'smooth'
-        });
+      });
       }, 50);
     }
   }, []);
