@@ -61,8 +61,7 @@ const Footer = () => {
                 <span className="font-semibold text-sm sm:text-base">Operating Hours</span>
               </div>
               <div className="text-gray-300 text-xs sm:text-sm space-y-1">
-                <p>Sat - Thu: 7:00 AM - 10:00 PM</p>
-                <p>Friday: 2:00 PM - 10:00 PM</p>
+                <p>8:00 AM - 11:00 PM</p>
               </div>
             </div>
 

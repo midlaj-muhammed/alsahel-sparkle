@@ -239,8 +239,7 @@ Message: ${formData.message}`;
                   </div>
                   <div>
                     <h4 className="font-semibold text-primary mb-1">Operating Hours</h4>
-                    <p className="text-gray-600 text-sm">Sat-Thu: 7AM-10PM</p>
-                    <p className="text-gray-600 text-sm">Fri: 2PM-10PM</p>
+                    <p className="text-gray-600 text-sm">8:00 AM - 11:00 PM</p>
                   </div>
                 </div>
               </div>
