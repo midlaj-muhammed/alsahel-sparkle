@@ -5,9 +5,9 @@ const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="bg-white shadow-md fixed w-full top-0 z-50">
+    <header className="bg-black/20 backdrop-blur-md border-b border-white/10 shadow-lg fixed w-full top-0 z-50">
       {/* Top Bar */}
-      <div className="bg-primary text-white py-2">
+      <div className="bg-black/30 backdrop-blur-sm text-white py-2">
         <div className="container-max">
           <div className="flex justify-between items-center text-sm">
             <div className="flex items-center space-x-4">
@@ -28,7 +28,7 @@ const Header = () => {
       </div>
 
       {/* Main Navigation */}
-      <nav className="bg-white">
+      <nav className="bg-white/10 backdrop-blur-md border-b border-white/5">
         <div className="container-max">
           <div className="flex justify-between items-center py-4">
             {/* Logo */}
@@ -42,10 +42,10 @@ const Header = () => {
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
-              <a href="#home" className="text-primary hover:text-accent-red transition-colors font-medium">Home</a>
-              <a href="#services" className="text-primary hover:text-accent-red transition-colors font-medium">Services</a>
-              <a href="#gallery" className="text-primary hover:text-accent-red transition-colors font-medium">Gallery</a>
-              <a href="#contact" className="text-primary hover:text-accent-red transition-colors font-medium">Contact</a>
+              <a href="#home" className="text-white hover:text-accent-red transition-colors font-medium">Home</a>
+              <a href="#services" className="text-white hover:text-accent-red transition-colors font-medium">Services</a>
+              <a href="#gallery" className="text-white hover:text-accent-red transition-colors font-medium">Gallery</a>
+              <a href="#contact" className="text-white hover:text-accent-red transition-colors font-medium">Contact</a>
               <a 
                 href="https://wa.me/971553989502?text=Hi%20Al%20Sahel%20Laundry%2C%20I%27d%20like%20to%20schedule%20a%20laundry%20pickup."
                 target="_blank"
@@ -60,7 +60,7 @@ const Header = () => {
             <div className="md:hidden">
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="text-primary hover:text-accent-red transition-colors"
+                className="text-white hover:text-accent-red transition-colors"
               >
                 {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
               </button>
@@ -70,12 +70,12 @@ const Header = () => {
 
         {/* Mobile Navigation */}
         {isOpen && (
-          <div className="md:hidden bg-white border-t">
+          <div className="md:hidden bg-black/40 backdrop-blur-md border-t border-white/10">
             <div className="px-2 pt-2 pb-3 space-y-1">
-              <a href="#home" className="block px-3 py-2 text-primary hover:text-accent-red transition-colors font-medium">Home</a>
-              <a href="#services" className="block px-3 py-2 text-primary hover:text-accent-red transition-colors font-medium">Services</a>
-              <a href="#gallery" className="block px-3 py-2 text-primary hover:text-accent-red transition-colors font-medium">Gallery</a>
-              <a href="#contact" className="block px-3 py-2 text-primary hover:text-accent-red transition-colors font-medium">Contact</a>
+              <a href="#home" className="block px-3 py-2 text-white hover:text-accent-red transition-colors font-medium">Home</a>
+              <a href="#services" className="block px-3 py-2 text-white hover:text-accent-red transition-colors font-medium">Services</a>
+              <a href="#gallery" className="block px-3 py-2 text-white hover:text-accent-red transition-colors font-medium">Gallery</a>
+              <a href="#contact" className="block px-3 py-2 text-white hover:text-accent-red transition-colors font-medium">Contact</a>
               <div className="px-3 py-2">
                 <a 
                   href="https://wa.me/971553989502?text=Hi%20Al%20Sahel%20Laundry%2C%20I%27d%20like%20to%20schedule%20a%20laundry%20pickup."
