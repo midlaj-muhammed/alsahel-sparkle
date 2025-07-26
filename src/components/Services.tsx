@@ -1,15 +1,22 @@
 import { Sparkles, Droplets, Shirt, Home, Blinds, Clock, Truck, Crown } from 'lucide-react';
 import { useBookingRedirect } from '@/hooks/useBookingRedirect';
+import { useState } from 'react';
 import dryCleaningImg from '@/assets/dry-cleaning-service.jpg';
 import washingImg from '@/assets/washing-service.jpg';
 import ironingImg from '@/assets/ironing-service.jpg';
 import carpetCleaningImg from '@/assets/carpet-cleaning-service.jpg';
 import curtainCleaningImg from '@/assets/curtain-cleaning-service.jpg';
 import expressImg from '@/assets/express-service.jpg';
-import premiumCareImg from '@/assets/woman-seamstress-spreading-fabrics-workshop.webp';
+import premiumCareImg from '@/assets/woman-seamstress-spreading-fabrics-workshop-optimized.webp';
 
 const Services = () => {
   const { redirectToBooking } = useBookingRedirect();
+  const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set());
+
+  const handleImageLoad = (index: number) => {
+    setLoadedImages(prev => new Set(prev).add(index));
+  };
+
   const services = [
     {
       icon: Sparkles,
@@ -70,7 +77,7 @@ const Services = () => {
   ];
 
   return (
-    <section id="services" className="section-padding bg-gradient-to-b from-white to-gray-50">
+    <section id="services" className="section-padding bg-gradient-to-b from-white to-gray-50 scroll-mt-20">
       <div className="container-max">
         {/* Section Header */}
         <div className="text-center mb-12 sm:mb-16 animate-fade-in px-4 sm:px-0">
@@ -87,6 +94,8 @@ const Services = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8 px-4 sm:px-0">
           {services.map((service, index) => {
             const IconComponent = service.icon;
+            const isImageLoaded = loadedImages.has(index);
+            
             return (
               <div
                 key={index}
@@ -94,11 +103,26 @@ const Services = () => {
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 {/* Service Image */}
-                <div className="relative h-40 sm:h-48 overflow-hidden">
+                <div className="relative h-40 sm:h-48 overflow-hidden bg-gray-100">
+                  {/* Loading Skeleton */}
+                  {!isImageLoaded && (
+                    <div className="absolute inset-0 image-loading flex items-center justify-center">
+                      <div className="w-8 h-8 border-2 border-gray-300 border-t-accent-red rounded-full animate-spin"></div>
+                    </div>
+                  )}
+                  
                   <img
                     src={service.image}
                     alt={service.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    loading={index < 4 ? "eager" : "lazy"}
+                    onLoad={() => handleImageLoad(index)}
+                    className={`w-full h-full object-cover transition-all duration-500 group-hover:scale-110 image-optimized ${
+                      isImageLoaded ? 'opacity-100' : 'opacity-0'
+                    }`}
+                    style={{
+                      transform: isImageLoaded ? 'translateZ(0)' : 'none',
+                      ...(index < 4 && { fetchPriority: 'high' })
+                    }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
 
