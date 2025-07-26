@@ -22,9 +22,9 @@ All colors MUST be HSL.
     --primary-foreground: 0 0% 98%;
     --primary-light: 218 31% 25%;
 
-    /* Red accent color from branding */
-    --accent-red: 0 84% 50%;
-    --accent-red-light: 0 84% 60%;
+    /* Purple-Pink accent colors from new branding */
+    --accent-red: 318 69% 31%; /* #811A75 */
+    --accent-red-light: 325 93% 30%; /* #970067 */
 
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 218 31% 17%;
