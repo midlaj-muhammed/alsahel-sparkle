@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { X, Calendar, Clock, MapPin, User, Phone, Mail, Package } from 'lucide-react';
+import { X, Calendar, Clock, MapPin, User, Phone, Mail, Package, ChevronDown } from 'lucide-react';
 import { createPortal } from 'react-dom';
 import { disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
 
@@ -22,7 +22,9 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, onBookingC
     serviceType: '',
     specialInstructions: ''
   });
+  const [isTimeDropdownOpen, setIsTimeDropdownOpen] = useState(false);
   const modalRef = useRef<HTMLDivElement | null>(null);
+  const timeDropdownRef = useRef<HTMLDivElement | null>(null);
 
   // Check for pre-selected service when modal opens
   useEffect(() => {
@@ -49,14 +51,21 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, onBookingC
   ];
 
   const timeSlots = [
+    '8:00 AM - 9:00 AM',
     '9:00 AM - 10:00 AM',
     '10:00 AM - 11:00 AM',
     '11:00 AM - 12:00 PM',
     '12:00 PM - 1:00 PM',
+    '1:00 PM - 2:00 PM',
     '2:00 PM - 3:00 PM',
     '3:00 PM - 4:00 PM',
     '4:00 PM - 5:00 PM',
-    '5:00 PM - 6:00 PM'
+    '5:00 PM - 6:00 PM',
+    '6:00 PM - 7:00 PM',
+    '7:00 PM - 8:00 PM',
+    '8:00 PM - 9:00 PM',
+    '9:00 PM - 10:00 PM',
+    '10:00 PM - 11:00 PM'
   ];
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -140,6 +149,28 @@ Please confirm this pickup booking. Thank you!`;
   const handleBackgroundClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) onClose();
   };
+
+  const handleTimeSelect = (time: string) => {
+    setFormData(prev => ({
+      ...prev,
+      time: time
+    }));
+    setIsTimeDropdownOpen(false);
+  };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (timeDropdownRef.current && !timeDropdownRef.current.contains(event.target as Node)) {
+        setIsTimeDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   if (!isOpen) return null;
 
@@ -273,20 +304,29 @@ Please confirm this pickup booking. Thank you!`;
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Preferred Time *
                 </label>
-                <select
-                  name="time"
-                  value={formData.time}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                >
-                  <option value="">Select time slot</option>
-                  {timeSlots.map((slot) => (
-                    <option key={slot} value={slot}>
-                      {slot}
-                    </option>
-                  ))}
-                </select>
+                <div className="relative" ref={timeDropdownRef}>
+                  <button
+                    type="button"
+                    onClick={() => setIsTimeDropdownOpen(!isTimeDropdownOpen)}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent flex items-center justify-between"
+                  >
+                    <span>{formData.time || 'Select time slot'}</span>
+                    <ChevronDown className="h-5 w-5 text-gray-500" />
+                  </button>
+                  {isTimeDropdownOpen && (
+                    <div className="absolute z-10 w-full bg-white border border-gray-300 rounded-lg shadow-lg mt-2 max-h-60 overflow-y-auto mobile-dropdown">
+                      {timeSlots.map((slot) => (
+                        <div
+                          key={slot}
+                          onClick={() => handleTimeSelect(slot)}
+                          className="px-4 py-3 hover:bg-blue-50 cursor-pointer touch-manipulation"
+                        >
+                          {slot}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
