@@ -136,7 +136,14 @@ Please confirm this pickup booking. Thank you!`;
   useEffect(() => {
     const modal = modalRef.current;
     if (isOpen && modal) {
-      disableBodyScroll(modal, { reserveScrollBarGap: true });
+      // Use a more mobile-friendly scroll lock approach
+      disableBodyScroll(modal, { 
+        reserveScrollBarGap: true,
+        allowTouchMove: (el) => {
+          // Allow touch scrolling within the modal content
+          return el.closest('.modal-content') !== null;
+        }
+      });
     } else {
       enableBodyScroll(modal as Element);
     }
@@ -183,8 +190,12 @@ Please confirm this pickup booking. Thank you!`;
       onClick={handleBackgroundClick}
     >
       <div
-        className="bg-white rounded-2xl max-w-2xl w-full max-h-[100dvh] overflow-y-auto"
-        style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+        className="bg-white rounded-2xl max-w-2xl w-full max-h-[100dvh] overflow-y-auto modal-content"
+        style={{ 
+          paddingBottom: 'env(safe-area-inset-bottom)',
+          WebkitOverflowScrolling: 'touch',
+          overscrollBehavior: 'contain'
+        }}
         onClick={e => e.stopPropagation()}
       >
         {/* Header */}
@@ -207,7 +218,7 @@ Please confirm this pickup booking. Thank you!`;
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-6">
+        <form onSubmit={handleSubmit} className="p-6 space-y-6 overflow-y-auto">
           {/* Customer Information */}
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-primary flex items-center">

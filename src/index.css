@@ -350,4 +350,20 @@ All colors MUST be HSL.
       position: sticky;
     }
   }
+
+  /* Modal content scrolling for mobile */
+  .modal-content {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    scroll-behavior: smooth;
+  }
+
+  /* Ensure form elements are properly sized on mobile */
+  @media screen and (max-width: 768px) {
+    .modal-content input,
+    .modal-content textarea,
+    .modal-content select {
+      font-size: 16px !important;
+    }
+  }
 }
