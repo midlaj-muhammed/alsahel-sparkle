@@ -20,3 +20,5 @@ Allow: /favicon.ico
 Allow: /favicon-*.png
 Allow: /apple-touch-icon.png
 Allow: /android-chrome-*.png
+
+Sitemap: https://www.alsahellaundry.com/sitemap.xml
